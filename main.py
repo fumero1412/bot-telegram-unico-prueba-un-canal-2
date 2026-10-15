@@ -11,7 +11,7 @@ GRUPO_DESTINO = 'https://t.me/+aH8ADmCchLYyNzNh'
 TOPIC_ID = 713969
 DESDE_FECHA = datetime(2022, 8, 7, 8, 38, 0, tzinfo=timezone.utc)
 
-app = Flask(name)
+app = Flask(__name__)
 @app.route('/')
 def home():
     return "Bot vivo copiando desde 7 agosto 2022"
