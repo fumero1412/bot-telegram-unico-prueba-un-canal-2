@@ -14,7 +14,7 @@ TOPIC_ID = 717696
 DESDE_FECHA = datetime(2010, 1, 1, tzinfo=timezone.utc)
 ARCHIVO_PROGRESO = "progreso.txt"
 
-app = Flask(name)
+app = Flask(__name__)
 @app.route('/')
 def home():
     return "Bot vivo 24/7 sin duplicados"
