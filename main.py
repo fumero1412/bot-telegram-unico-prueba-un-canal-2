@@ -1,6 +1,6 @@
 from telethon import TelegramClient, events
 from datetime import datetime, timezone
-import asyncio, threading, os
+import asyncio, threading
 from flask import Flask
 
 API_ID = 32695956
@@ -11,7 +11,6 @@ GRUPO_DESTINO = 'https://t.me/+aH8ADmCchLYyNzNh'
 TOPIC_ID = 713969
 DESDE_FECHA = datetime(2022, 8, 7, 8, 38, 0, tzinfo=timezone.utc)
 
-# --- Truco para que Render sea gratis ---
 app = Flask(name)
 @app.route('/')
 def home():
@@ -21,7 +20,6 @@ def run_flask():
     app.run(host='0.0.0.0', port=10000)
 
 threading.Thread(target=run_flask, daemon=True).start()
-# --- Fin truco ---
 
 client = TelegramClient(SESSION, API_ID, API_HASH)
 
@@ -35,8 +33,7 @@ async def copiar_historial():
         texto = (msg.text or "").strip()
         tiene_media = msg.media is not None
         es_telegraph = texto.startswith("https://telegra.ph")
-        if not tiene_media and not es_telegraph:
-            continue
+        if not tiene_media and not es_telegraph: continue
         try:
             if tiene_media:
                 await client.send_file(destino, msg.media, caption=msg.text, reply_to=TOPIC_ID)
@@ -53,8 +50,7 @@ async def copiar_historial():
 @client.on(events.NewMessage(chats=CANAL_ORIGEN))
 async def handler(event):
     texto = (event.message.text or "").strip()
-    if not (event.message.media or texto.startswith("https://telegra.ph")):
-        return
+    if not (event.message.media or texto.startswith("https://telegra.ph")): return
     destino = await client.get_entity(GRUPO_DESTINO)
     if event.message.media:
         await client.send_file(destino, event.message.media, caption=event.message.text, reply_to=TOPIC_ID)
